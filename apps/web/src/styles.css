@@ -141,6 +141,49 @@
   --brand-label: oklch(0.7187 0.1122 39.57); /* #e08b6e */
 }
 
+/* Christmas: a fixed festive evergreen night. It is a dark-scheme theme, so
+   <html> carries both `dark` and `christmas`; this block comes after `.dark`
+   and overrides every variable it sets. Spruce green surfaces, ivory text,
+   Christmas red as the primary and warm gold as the secondary accent. */
+.christmas {
+  --background: oklch(0.27 0.07 155);
+  --foreground: oklch(0.96 0.02 90);
+  --card: oklch(0.32 0.075 155);
+  --card-foreground: oklch(0.96 0.02 90);
+  --popover: oklch(0.3 0.075 155);
+  --popover-foreground: oklch(0.96 0.02 90);
+  --primary: oklch(0.55 0.2 27);
+  --primary-foreground: oklch(0.99 0.01 90);
+  --secondary: oklch(0.37 0.08 155);
+  --secondary-foreground: oklch(0.96 0.02 90);
+  --muted: oklch(0.36 0.075 155);
+  --muted-foreground: oklch(0.84 0.04 125);
+  --accent: oklch(0.4 0.085 155);
+  --accent-foreground: oklch(0.96 0.02 90);
+  --destructive: oklch(0.72 0.16 25);
+  --border: oklch(0.47 0.07 115);
+  --input: oklch(0.62 0.08 105);
+  --ring: oklch(0.82 0.14 85);
+  --chart-1: oklch(0.7 0.17 27);
+  --chart-2: oklch(0.82 0.14 85);
+  --chart-3: oklch(0.72 0.14 150);
+  --chart-4: oklch(0.96 0.02 90);
+  --chart-5: oklch(0.6 0.1 155);
+  --sidebar: oklch(0.27 0.07 155);
+  --sidebar-foreground: oklch(0.96 0.02 90);
+  --sidebar-primary: oklch(0.55 0.2 27);
+  --sidebar-primary-foreground: oklch(0.99 0.01 90);
+  --sidebar-accent: oklch(0.4 0.085 155);
+  --sidebar-accent-foreground: oklch(0.96 0.02 90);
+  --sidebar-border: oklch(0.47 0.07 115);
+  --sidebar-ring: oklch(0.82 0.14 85);
+
+  --brand-label: oklch(0.8 0.12 20);
+
+  --xmas-gold: oklch(0.82 0.14 85);
+  --xmas-red: oklch(0.55 0.2 27);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -217,7 +260,7 @@ body {
   width: 100%;
   height: 1px;
   content: "";
-  background: var(--brand-terracotta);
+  background: var(--primary);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 170ms ease;
@@ -261,5 +304,118 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .rise-in {
     animation: none;
+  }
+}
+
+/* Christmas decoration: festive header, gold accents and snowfall. */
+.xmas-mark,
+.snowfall {
+  display: none;
+}
+
+.christmas {
+  background-color: var(--background);
+}
+
+.christmas body {
+  background: linear-gradient(
+      180deg,
+      oklch(0.31 0.08 155) 0%,
+      oklch(0.25 0.065 155) 60%,
+      oklch(0.2 0.055 160) 100%
+    )
+    fixed;
+}
+
+.christmas .xmas-mark {
+  display: inline;
+  filter: drop-shadow(0 0 6px var(--xmas-gold))
+    drop-shadow(0 0 14px oklch(0.82 0.14 85 / 0.55));
+}
+
+.christmas .header-dot {
+  display: none;
+}
+
+/* Candy-cane strip along the bottom edge of the sticky header. */
+.christmas header {
+  border-bottom-color: transparent;
+}
+
+.christmas header::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 5px;
+  content: "";
+  background: repeating-linear-gradient(
+    135deg,
+    var(--xmas-red) 0 7px,
+    #fff 7px 14px
+  );
+  box-shadow: 0 1px 10px oklch(0.82 0.14 85 / 0.35);
+}
+
+.christmas .nav-link::after {
+  background: var(--xmas-gold);
+}
+
+.christmas .island-kicker::before {
+  margin-right: 0.35em;
+  color: var(--xmas-gold);
+  content: "\2726";
+}
+
+.christmas .island-shell {
+  box-shadow: inset 0 1px 0 oklch(0.82 0.14 85 / 0.12);
+}
+
+.christmas .snowfall {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.snowflake {
+  position: absolute;
+  top: -1rem;
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  background: #fff;
+  border-radius: 9999px;
+  box-shadow: 0 0 4px 1px rgb(255 255 255 / 0.55);
+  opacity: 0.95;
+  animation: snow-fall var(--dur) linear var(--delay) infinite;
+}
+
+/* A third of the flakes are soft out-of-focus ones, a quarter glow. */
+.snowflake:nth-child(3n) {
+  opacity: 0.7;
+  filter: blur(1.5px);
+}
+
+.snowflake:nth-child(4n + 1) {
+  box-shadow:
+    0 0 6px 2px rgb(255 255 255 / 0.7),
+    0 0 14px 4px rgb(186 230 253 / 0.35);
+}
+
+@keyframes snow-fall {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(var(--drift), 105dvh, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .christmas .snowfall {
+    display: none;
   }
 }

@@ -10,7 +10,10 @@ export default function Header() {
             className="inline-flex items-center gap-2.5 font-heading text-foreground text-xl no-underline"
             to="/"
           >
-            <span className="h-2.5 w-2.5 rounded-full bg-primary" />
+            <span className="header-dot h-2.5 w-2.5 rounded-full bg-primary" />
+            <span aria-hidden="true" className="xmas-mark">
+              🎄
+            </span>
             Teamdesk
           </Link>
         </h2>
