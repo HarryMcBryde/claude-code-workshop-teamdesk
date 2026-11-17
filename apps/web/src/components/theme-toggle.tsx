@@ -1,15 +1,12 @@
 import { Monitor, Moon, Snowflake, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "#/components/ui/button";
-
-type ThemeMode = "light" | "dark" | "auto" | "christmas";
-
-const NEXT_MODE: Record<ThemeMode, ThemeMode> = {
-  auto: "light",
-  christmas: "auto",
-  dark: "christmas",
-  light: "dark",
-};
+import {
+  NEXT_MODE,
+  parseThemeMode,
+  resolveTheme,
+  type ThemeMode,
+} from "#/lib/theme";
 
 const MODE_LABEL: Record<ThemeMode, string> = {
   auto: "Auto",
@@ -25,32 +22,12 @@ const MODE_ICON = {
   light: Sun,
 } as const;
 
-function resolveTheme(
-  mode: ThemeMode,
-  prefersDark: boolean
-): "light" | "dark" | "christmas" {
-  if (mode === "auto") {
-    return prefersDark ? "dark" : "light";
-  }
-  return mode;
-}
-
 function getInitialMode(): ThemeMode {
   if (typeof window === "undefined") {
     return "auto";
   }
 
-  const stored = window.localStorage.getItem("theme");
-  if (
-    stored === "light" ||
-    stored === "dark" ||
-    stored === "auto" ||
-    stored === "christmas"
-  ) {
-    return stored;
-  }
-
-  return "auto";
+  return parseThemeMode(window.localStorage.getItem("theme"));
 }
 
 function applyThemeMode(mode: ThemeMode) {
