@@ -35,9 +35,10 @@ function applyThemeMode(mode: ThemeMode) {
   const resolved = resolveTheme(mode, prefersDark);
 
   document.documentElement.classList.remove("light", "dark", "christmas");
-  document.documentElement.classList.add(
-    mode === "christmas" ? "christmas" : resolved
-  );
+  document.documentElement.classList.add(resolved);
+  if (mode === "christmas") {
+    document.documentElement.classList.add("christmas");
+  }
 
   if (mode === "auto") {
     document.documentElement.removeAttribute("data-theme");

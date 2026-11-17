@@ -61,9 +61,9 @@ describe("theme cycle", () => {
 });
 
 describe("resolveTheme", () => {
-  test("christmas resolves to light regardless of system", () => {
-    expect(resolveTheme("christmas", true)).toBe("light");
-    expect(resolveTheme("christmas", false)).toBe("light");
+  test("christmas resolves to dark regardless of system", () => {
+    expect(resolveTheme("christmas", true)).toBe("dark");
+    expect(resolveTheme("christmas", false)).toBe("dark");
   });
   test("light, dark and auto are unchanged", () => {
     expect(resolveTheme("light", true)).toBe("light");
@@ -88,11 +88,13 @@ describe("parseThemeMode", () => {
 });
 
 describe("THEME_INIT_SCRIPT", () => {
-  test("christmas: class christmas only, data-theme, light colour scheme", () => {
-    const r = runInitScript("christmas", true);
-    expect(r.classes).toEqual(["christmas"]);
-    expect(r.attrs.get("data-theme")).toBe("christmas");
-    expect(r.colorScheme).toBe("light");
+  test("christmas: classes dark + christmas, data-theme, dark colour scheme", () => {
+    for (const prefersDark of [true, false]) {
+      const r = runInitScript("christmas", prefersDark);
+      expect(r.classes).toEqual(["dark", "christmas"]);
+      expect(r.attrs.get("data-theme")).toBe("christmas");
+      expect(r.colorScheme).toBe("dark");
+    }
   });
   test("light", () => {
     const r = runInitScript("light", true);
