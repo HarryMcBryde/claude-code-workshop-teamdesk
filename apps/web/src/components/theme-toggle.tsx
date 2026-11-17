@@ -1,28 +1,34 @@
-import { Monitor, Moon, Sun } from "lucide-react";
+import { Monitor, Moon, Snowflake, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "#/components/ui/button";
 
-type ThemeMode = "light" | "dark" | "auto";
+type ThemeMode = "light" | "dark" | "auto" | "christmas";
 
 const NEXT_MODE: Record<ThemeMode, ThemeMode> = {
   auto: "light",
-  dark: "auto",
+  christmas: "auto",
+  dark: "christmas",
   light: "dark",
 };
 
 const MODE_LABEL: Record<ThemeMode, string> = {
   auto: "Auto",
+  christmas: "Christmas",
   dark: "Dark",
   light: "Light",
 };
 
 const MODE_ICON = {
   auto: Monitor,
+  christmas: Snowflake,
   dark: Moon,
   light: Sun,
 } as const;
 
-function resolveTheme(mode: ThemeMode, prefersDark: boolean): "light" | "dark" {
+function resolveTheme(
+  mode: ThemeMode,
+  prefersDark: boolean
+): "light" | "dark" | "christmas" {
   if (mode === "auto") {
     return prefersDark ? "dark" : "light";
   }
@@ -35,7 +41,12 @@ function getInitialMode(): ThemeMode {
   }
 
   const stored = window.localStorage.getItem("theme");
-  if (stored === "light" || stored === "dark" || stored === "auto") {
+  if (
+    stored === "light" ||
+    stored === "dark" ||
+    stored === "auto" ||
+    stored === "christmas"
+  ) {
     return stored;
   }
 
@@ -46,7 +57,7 @@ function applyThemeMode(mode: ThemeMode) {
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const resolved = resolveTheme(mode, prefersDark);
 
-  document.documentElement.classList.remove("light", "dark");
+  document.documentElement.classList.remove("light", "dark", "christmas");
   document.documentElement.classList.add(resolved);
 
   if (mode === "auto") {
@@ -55,7 +66,8 @@ function applyThemeMode(mode: ThemeMode) {
     document.documentElement.setAttribute("data-theme", mode);
   }
 
-  document.documentElement.style.colorScheme = resolved;
+  document.documentElement.style.colorScheme =
+    resolved === "christmas" ? "light" : resolved;
 }
 
 export default function ThemeToggle() {
