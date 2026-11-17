@@ -61,9 +61,9 @@ describe("theme cycle", () => {
 });
 
 describe("resolveTheme", () => {
-  test("christmas resolves to christmas regardless of system", () => {
-    expect(resolveTheme("christmas", true)).toBe("christmas");
-    expect(resolveTheme("christmas", false)).toBe("christmas");
+  test("christmas resolves to light regardless of system", () => {
+    expect(resolveTheme("christmas", true)).toBe("light");
+    expect(resolveTheme("christmas", false)).toBe("light");
   });
   test("light, dark and auto are unchanged", () => {
     expect(resolveTheme("light", true)).toBe("light");

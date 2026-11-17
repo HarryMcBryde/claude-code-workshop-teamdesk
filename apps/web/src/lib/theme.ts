@@ -10,11 +10,11 @@ export const NEXT_MODE: Record<ThemeMode, ThemeMode> = {
 export function resolveTheme(
   mode: ThemeMode,
   prefersDark: boolean
-): "light" | "dark" | "christmas" {
+): "light" | "dark" {
   if (mode === "auto") {
     return prefersDark ? "dark" : "light";
   }
-  return mode;
+  return mode === "christmas" ? "light" : mode;
 }
 
 export function parseThemeMode(stored: string | null | undefined): ThemeMode {
