@@ -301,3 +301,54 @@ body {
     animation: none;
   }
 }
+
+/* Christmas decoration: festive header mark and snowfall. */
+.xmas-mark,
+.snowfall {
+  display: none;
+}
+
+.christmas .xmas-mark {
+  display: inline;
+}
+
+.christmas .header-dot {
+  display: none;
+}
+
+.christmas .snowfall {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.snowflake {
+  position: absolute;
+  top: -1rem;
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  background: #fff;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 1px rgb(186 230 253 / 0.6);
+  opacity: 0.85;
+  animation: snow-fall var(--dur) linear var(--delay) infinite;
+}
+
+@keyframes snow-fall {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(var(--drift), 105dvh, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .christmas .snowfall {
+    display: none;
+  }
+}
